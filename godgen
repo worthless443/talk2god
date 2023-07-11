@@ -1,0 +1,23 @@
+#!/bin/bash
+i=3952
+echo "processing - Stage 1"
+rawtext=$(while [ ! $i -eq 0 ]; do [ $i -gt 1 ] && printf "%s " $(./bin/godwords);i=$(($i - 1));[ $i -eq 1 ] && echo;done)
+_text=$(awk 'BEGIN{ORS="\n";RS=" "}{print}' <<< $rawtext)
+_pickedword=$(awk "NR==$(./bin/random2){print}" <<< $_text)
+i=5
+echo "Selected word - $_pickedword"
+echo "processing - Stage 2"
+while true; do
+	rawtext=$(while [ ! $i -eq 0 ]; do [ $i -gt 1 ] && printf "%s " $(./bin/godwords);i=$(($i - 1));[ $i -eq 1 ] && echo;done)
+	text=$(awk 'BEGIN{ORS="\n";RS=" "}{print}' <<< $rawtext)
+	B=$(awk "/$_pickedword/{print NR}" <<< $_text)
+	n=$(($n+1))
+	printf "Searching (%d)\r" $n
+	grep  "$_pickedword" <<< $rawtext 2>/dev/null >/dev/null && break
+done
+W=$(($n + $(awk 'NR==1{print}'<<< $B)))
+printf "\nGenerating Word from God **\n"
+i=3952
+rawtext=$(while [ ! $i -eq 0 ]; do [ $i -gt 1 ] && printf "%s " $(./bin/godwords);i=$(($i - 1));[ $i -eq 1 ] && echo;done)
+text=$(awk 'BEGIN{ORS="\n";RS=" "}{print}' <<< $rawtext)
+printf "Generated word - \"%s\"\n" $(awk "NR==$W{print}" <<< $text)

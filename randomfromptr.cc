@@ -46,7 +46,7 @@ int __memset(int *ptr) {
 	//printf("0x%x\n",  ((store >> 63) + 1));
 	return 1;
 }
-#ifdef __MAIN__ 
+#ifdef __MAIN__
 int main() {
 		printf("%d\n",randomsize_ptr_bounded(3500));
 }

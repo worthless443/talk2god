@@ -5,8 +5,10 @@
 #include<fstream>
 #include<cstdlib>
 #include<vector>
-
 #include<time.h>
+
+#include "godwords.h"
+
 #ifndef GOD_SOURCE 
 #define GOD_SOURCE "/etc/godwords_uniq"
 #endif 
@@ -17,7 +19,7 @@ size_t getrandom(int s,int e) {
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(s,e); 
     return dist6(rng);
-}
+} // end stackoverflow
 
 void read_Godwords(const char *fn, std::string &buffer) {
 	std::ifstream file;
@@ -34,8 +36,7 @@ auto vectorize_god(std::string God) {
 	return v_GodWors;
 }
 
-template<class T>
-auto get_GodWords(T v, int count) {
+std::string get_GodWords(T v, int count) {
 	srand(time(0));
 	std::stringstream strm;
 #ifdef __BASED_PTR
@@ -61,11 +62,6 @@ static std::vector<std::string> parse_holy_to_arr() {
 	auto v_God = vectorize_god(God);
 	return v_God;
 }
-auto v_God = parse_holy_to_arr();
 
-#ifdef __MAIN__
-int main(int argc, char **argv) {
-	auto Godstr = get_GodWords(v_God,argc > 1 ? std::atoi(*(argv+1)) : 69);
-	std::cout << Godstr;
-}
-#endif
+std::vector<std::string> v_God = parse_holy_to_arr();
+
